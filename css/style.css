@@ -53,6 +53,11 @@ button:hover {
 	padding: 15px 10%;
 }
 
+.time:first-child {
+	display: block;
+	margin-bottom: -50px;
+}
+
 .outer {
 	margin-bottom: 25px;
 }

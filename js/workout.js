@@ -1,10 +1,12 @@
 var $setClock = $("#setClock");
 var $clockDis = $("#display");
+var $clockDisH3 = $("#clockDisplay h3");
 
 var $woMinutes = $("#woMin");
 var $woSeconds = $("#woSec");
 var $resMinutes = $("#resMin");
 var $resSeconds = $("#resSec");
+var $cycleNumber = $("#cycleNum");
 
 var $plusBtn = $(".plus");
 var $minusBtn = $(".minus");
@@ -14,17 +16,23 @@ var $startBtn = $("#start");
 var workoutTimer;
 var isWorkout = true;
 
+//Another Variables
+var cycles;
+var cycleInProgress = 1;
 var sound = new Howl({
 	src : ["sound/veil.mp3"],
 	rate : 2
 });
 
+
+//Initialize default variables
 init();
 
 function init() {
 	//Initialize default times
 	$woMinutes.text(5);
 	$resSeconds.text(30);
+	$cycleNumber.text(1);
 }
 
 function getTimeRemaining(endtime) {
@@ -56,7 +64,15 @@ function updateClock(endtime) {
 	}
 }	
 
-function initClock(woMin, woSec, resMin, resSec) {
+function initClock() {
+	//Workout Times
+	var woMin = validate($woMinutes.text());
+	var woSec = validate($woSeconds.text());
+
+	//Break Times
+	var resMin = validate($resMinutes.text());
+	var resSec = validate($resSeconds.text());
+
 	if((woMin === 0 && woSec === 0) || (resMin === 0 && resSec === 0)){
 		alert("Session time must be greater than 0")
 
@@ -65,9 +81,18 @@ function initClock(woMin, woSec, resMin, resSec) {
 		var resetEndTime = new Date(Date.parse(new Date()) + (resMin * 60 * 1000) + (resSec * 1000));
 
 		if(isWorkout) {
-			updateClock(workoutEndTime);
-			workoutTimer = setInterval(function() {updateClock(workoutEndTime);}, 1000);
-			isWorkout = false;
+			if(cycles === 0) {
+				reset();
+			} else {
+				cycles--;
+				$clockDisH3.text("Cycle Number: " + cycleInProgress);
+				cycleInProgress++;
+
+				updateClock(workoutEndTime);
+				workoutTimer = setInterval(function() {updateClock(workoutEndTime);}, 1000);
+				isWorkout = false;
+			}
+
 		} else {
 			isWorkout = true;
 			updateClock(resetEndTime);
@@ -82,9 +107,17 @@ function validate(num){
 }
 
 function reset(){
+	//Clear Inteval
 	clearInterval(workoutTimer);
+
+	//Reseting the values for the clock display
 	$clockDis.text("");
+	$clockDisH3.text("");
+
 	isWorkout = true;
+	$setClock.slideDown(500);
+	$startBtn.text("Start!");
+	cycleInProgress = 1;
 }
 
 // Events
@@ -92,21 +125,14 @@ $startBtn.click(function(){
 	
 	// console.log(endTime);
 	if($(this).text() == "Start!") {
-		//Workout Times
-		var woMin = validate($woMinutes.text());
-		var woSec = validate($woSeconds.text());
+		cycles = validate($cycleNumber.text());
 
-		//Break Times
-		var resMin = validate($resMinutes.text());
-		var resSec = validate($resSeconds.text());
-		
 		$setClock.slideUp(500, function(){
 			$startBtn.text("Reset!");
-			initClock(woMin, woSec, resMin, resSec);
+			initClock();
 		});
+
 	} else {
-		$setClock.slideDown(500);
-		$(this).text("Start!");
 		reset();
 	}
 	
@@ -119,10 +145,18 @@ $plusBtn.click(function(){
 });
 
 $minusBtn.click(function(){
-	var val = Number($(this).next("p").text());
 
-	if(val !== 0) {
-		val--;
-		$(this).next("p").text(val);
+	var val = Number($(this).next("p").text());
+	if($(this).next("p").attr("id") === "cycleNum") {
+		if(val !== 1) {
+			val--;
+			$(this).next("p").text(val);
+		}
+	} else {
+		if(val !== 0) {
+			val--;
+			$(this).next("p").text(val);
+		}
 	}
+	
 });
