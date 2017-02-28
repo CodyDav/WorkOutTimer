@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SetAndGo</title>
+        <link rel="stylesheet" type="text/css" href="css/normalize.css">
+        <link href="https://fonts.googleapis.com/css?family=Lora:700i|Roboto" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+    </head>
+    <body>
+
+    	<div class="container">
+	    	<h1>Get <span>set</span> and <span>Start</span></h1>
+
+	    	<div id="clock">
+	    		<div id="setClock">
+
+	    			<div class="time"><!-- Num of cycles -->
+	    				<h3>Number of Cycles</h3>
+
+	    				<div class="outer">
+		    				<div class="inner">
+			    				<span class="minus">-</span>
+				    			<p id="cycleNum">0</p>
+				    			<span class="plus">+</span>
+							</div>
+						</div>
+	    			</div>
+
+	    			<div class="time"><!-- Workout Time -->
+	    				<h3>Session:</h3>
+
+	    				<div class="outer">
+		    				<div class="inner">
+			    				<span class="minus">-</span>
+				    			<p id="woMin">0</p>
+				    			<span class="plus">+</span>
+							</div>
+							<span>Minutes</span>
+						</div>
+
+		    			<div class="outer">
+		    				<div class="inner">
+			    				<span class="minus">-</span>
+				    			<p id="woSec">0</p>
+				    			<span class="plus">+</span>
+							</div>
+							<span>Seconds</span>
+						</div>
+	    			</div>
+
+	    			<div class="time"><!-- Break Time -->
+	    				<h3>Break:</h3>
+
+	    				<div class="outer">
+		    				<div class="inner">
+			    				<span class="minus">-</span>
+				    			<p id="resMin">0</p>
+				    			<span class="plus">+</span>
+							</div>
+							<span>Minutes</span>
+						</div>
+
+						<div class="outer">
+		    				<div class="inner">
+			    				<span class="minus">-</span>
+				    			<p id="resSec">0</p>
+				    			<span class="plus">+</span>
+							</div>
+							<span>Seconds</span>
+						</div>
+	    			</div>	
+	    		</div>
+
+	    		<button id="start">Start!</button>
+
+	    		<div id="clockDisplay">
+	    			<h3></h3>
+	    			<p id="display"></p>
+	    		</div>
+	    	</div>
+    	</div>
+
+    <!-- JS Scripts -->
+    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.2/howler.min.js"></script>
+    <script type="text/javascript" src="js/workout.js"></script>
+    <!-- /JS Scripts -->
+
+    </body>
+</html>
